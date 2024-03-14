@@ -21,11 +21,14 @@ export const AgeByName: FC<NavIdProps> = ({ id }) => {
 	const [age, setAge] = useState('');
 	const [error, setError] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
+	const [isValidInput, setIsValidInput] = useState(true);
 	const [abortController, setAbortController] =
 		useState<AbortController | null>(null);
 	const routeNavigator = useRouteNavigator();
 
 	const fetchAge = (controller: AbortController) => {
+		if (!isValidInput) return;
+
 		setAge('');
 
 		const id = setTimeout(() => {
@@ -73,6 +76,9 @@ export const AgeByName: FC<NavIdProps> = ({ id }) => {
 	}, [name]);
 
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+		const inputValue = event.target.value;
+		const isValid = /^[A-Za-z]+$/.test(inputValue);
+		setIsValidInput(isValid);
 		setAge('');
 		setError('');
 		setName(event.target.value);
@@ -101,6 +107,8 @@ export const AgeByName: FC<NavIdProps> = ({ id }) => {
 								onChange={handleInputChange}
 								placeholder="Введите имя"
 								required
+								pattern="[A-Za-zА-Яа-я]+"
+								title="Пожалуйста, вводите только буквы"
 								style={{ width: '100%' }}
 							/>
 						</FormField>
