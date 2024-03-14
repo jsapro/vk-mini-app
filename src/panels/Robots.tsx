@@ -62,7 +62,7 @@ export const Robots: FC<NavIdProps> = ({ id }) => {
 								type="text"
 								value={description}
 								onChange={handleInputChange}
-								placeholder="Введите имя"
+								placeholder="Введите приметы робота)"
 								required
 								disabled={!isLoaded}
 								style={{ width: '100%' }}
