@@ -3,8 +3,10 @@ import bridge, { UserInfo } from '@vkontakte/vk-bridge';
 import { View, SplitLayout, SplitCol, ScreenSpinner } from '@vkontakte/vkui';
 import { useActiveVkuiLocation } from '@vkontakte/vk-mini-apps-router';
 
-import { Persik, Home } from './panels';
 import { DEFAULT_VIEW_PANELS } from './routes';
+import { Robots, Home } from './panels';
+import { Cats } from './panels';
+import { AgeByName } from './panels';
 
 export const App = () => {
   const { panel: activePanel = DEFAULT_VIEW_PANELS.HOME } = useActiveVkuiLocation();
@@ -21,13 +23,15 @@ export const App = () => {
   }, []);
 
   return (
-    <SplitLayout popout={popout}>
-      <SplitCol>
-        <View activePanel={activePanel}>
-          <Home id="home" fetchedUser={fetchedUser} />
-          <Persik id="persik" />
-        </View>
-      </SplitCol>
-    </SplitLayout>
-  );
+		<SplitLayout popout={popout}>
+			<SplitCol>
+				<View activePanel={activePanel}>
+					<Home id="home" fetchedUser={fetchedUser} />
+					<Robots id="robots" />
+					<Cats id="cats" />
+					<AgeByName id="age" />
+				</View>
+			</SplitCol>
+		</SplitLayout>
+	);
 };
