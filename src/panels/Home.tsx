@@ -35,14 +35,14 @@ export const Home: FC<HomeProps> = ({ id, fetchedUser }) => {
 				</Group>
 			)}
 
-			<Group header={<Header mode="secondary"> Выбирай  ❤</Header>}>
+			<Group header={<Header mode="secondary"> Выбирай ❤</Header>}>
 				<Div>
 					<Button
 						stretched
 						size="l"
 						mode="primary"
 						onClick={() => routeNavigator.push('robots')}>
-						{last_name}, здесь Futurama-style robots!
+						{first_name}, здесь Futurama-style robots!
 					</Button>
 					<Spacing size={10} />
 					<Button
@@ -58,7 +58,7 @@ export const Home: FC<HomeProps> = ({ id, fetchedUser }) => {
 						size="l"
 						mode="primary"
 						onClick={() => routeNavigator.push('age')}>
-						{last_name}, попробуй определить возраст по имени!
+						{first_name}, попробуй определить возраст по имени!
 					</Button>
 				</Div>
 			</Group>
