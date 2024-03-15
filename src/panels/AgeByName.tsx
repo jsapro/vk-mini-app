@@ -31,30 +31,26 @@ export const AgeByName: FC<NavIdProps> = ({ id }) => {
 
 		setAge('');
 
-		const id = setTimeout(() => {
-			fetch(`https://api.agify.io/?name=${name}`, {
-				signal: controller.signal,
+		fetch(`https://api.agify.io/?name=${name}`, {
+			signal: controller.signal,
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				setAge(data.age);
+				setError(data.error);
+				setNameFromServer(data.name);
+				setIsLoading(false);
 			})
-				.then((response) => response.json())
-				.then((data) => {
-					setAge(data.age);
-					setError(data.error);
-					setNameFromServer(data.name);
-					setIsLoading(false);
-				})
-				.catch((error) => {
-					if (error.name === 'AbortError') {
-						console.log('Fetch aborted');
-					} else {
-						console.error('Fetch error:', error);
-					}
-				})
-				.finally(() => {
-					setIsLoading(false);
-				});
-		}, 3000);
-
-		setTimerId(id);
+			.catch((error) => {
+				if (error.name === 'AbortError') {
+					console.log('Fetch aborted');
+				} else {
+					console.error('Fetch error:', error);
+				}
+			})
+			.finally(() => {
+				setIsLoading(false);
+			});
 	};
 
 	useEffect(() => {
@@ -67,11 +63,15 @@ export const AgeByName: FC<NavIdProps> = ({ id }) => {
 			abortController.abort();
 		}
 
-		fetchAge(controller);
+		const id = setTimeout(() => {
+			fetchAge(controller);
+		}, 3000);
+
+		setTimerId(id);
 
 		return () => {
 			controller.abort();
-			timerId && clearTimeout(timerId);
+			clearTimeout(id);
 		};
 	}, [name]);
 
@@ -86,6 +86,7 @@ export const AgeByName: FC<NavIdProps> = ({ id }) => {
 
 	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
+		timerId && clearTimeout(timerId);
 		setIsLoading(true);
 		abortController && fetchAge(abortController);
 	};
@@ -107,8 +108,8 @@ export const AgeByName: FC<NavIdProps> = ({ id }) => {
 								onChange={handleInputChange}
 								placeholder="Введите имя"
 								required
-								pattern="[A-Za-zА-Яа-я]+"
-								title="Пожалуйста, вводите только буквы"
+								pattern="[A-Za-z]+"
+								title="Пожалуйста, вводите только латинские буквы"
 								style={{ width: '100%' }}
 							/>
 						</FormField>
